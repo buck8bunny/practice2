@@ -3,6 +3,7 @@ import Calendar from 'react-calendar';
 import { Link } from 'react-router-dom';
 import '../calendar.css';
 import Header from './Header';
+import Footer from './Footer';
 
 const CalendarPage = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
@@ -114,6 +115,7 @@ const CalendarPage = () => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

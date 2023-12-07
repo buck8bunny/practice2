@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from './Header';
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import Footer from './Footer';
 
 const EventDetail = () => {
   const { eventId } = useParams();
@@ -79,6 +80,7 @@ const EventDetail = () => {
       ) : (
         <p>Івент не знайдено.</p>
       )}
+       <Footer />
     </div>
   );
 };

@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 import { format } from 'date-fns';
 import Header from './Header';
+import Footer from './Footer';
 
 const StatsPage = () => {
   const [monthlyEvents, setMonthlyEvents] = useState([]);
@@ -126,6 +127,7 @@ const StatsPage = () => {
           </div>
         </Col>
       </Row>
+      <Footer />
     </Container>
   );
 };

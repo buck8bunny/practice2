@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Header from './Header';
 import CustomModal from './CustomModal';
+import Footer from './Footer';
 
 const Home = () => {
   const [filter, setFilter] = useState('all');
@@ -88,11 +89,13 @@ const Home = () => {
     }
   };
 
+  // Відображаємо для запису актуальні події, які ще не закінчились
+  const currentDate = new Date();
 
   const filteredEvents =
     filter === 'all'
-      ? events
-      : events.filter((event) => event.category.toLowerCase() === filter.toLowerCase());
+      ? events.filter((event) => new Date(event.date) >= currentDate)
+      : events.filter((event) => event.category.toLowerCase() === filter.toLowerCase() && new Date(event.date) >= currentDate);
 
   return (
     <div className="container mt-5">
@@ -113,7 +116,11 @@ const Home = () => {
 
       </div>
       <div className="row">
-        {filteredEvents.map((event) => (
+        
+      {filteredEvents.length === 0 ? (
+        <p>Немає активних подій в цій категорії.</p>
+      ) : (
+        filteredEvents.map((event) => (
           <div key={event.id} className="col-md-4 mb-4">
             <div className="card">
               <div className="card-body">
@@ -138,7 +145,8 @@ const Home = () => {
               </div>
             </div>
           </div>
-        ))}
+        ))
+        )}
       </div>
 
       {/* CustomModal component */}
@@ -149,7 +157,9 @@ const Home = () => {
         emailInput={emailInput}
         setEmailInput={setEmailInput}
       />
+        <Footer />
     </div>
+    
   );
 };
 
