@@ -62,7 +62,7 @@ module.exports = {
         date: '2023-12-30',
         category: 'Технології',
         guestsAttending: 60,
-        guestsNotAttending: 0,
+        guestsNotAttending: 3,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -71,7 +71,7 @@ module.exports = {
         date: '2024-01-05',
         category: 'Благодійність',
         guestsAttending: 30,
-        guestsNotAttending: 0,
+        guestsNotAttending: 13,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -80,7 +80,7 @@ module.exports = {
         date: '2024-01-10',
         category: 'Спорт',
         guestsAttending: 100,
-        guestsNotAttending: 0,
+        guestsNotAttending: 20,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -98,7 +98,7 @@ module.exports = {
         date: '2024-02-14',
         category: 'Розваги',
         guestsAttending: 200,
-        guestsNotAttending: 0,
+        guestsNotAttending: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -107,7 +107,7 @@ module.exports = {
         date: '2024-02-20',
         category: 'Автомобілі',
         guestsAttending: 80,
-        guestsNotAttending: 0,
+        guestsNotAttending: 10,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -116,7 +116,7 @@ module.exports = {
         date: '2024-02-25',
         category: 'Мистецтво',
         guestsAttending: 40,
-        guestsNotAttending: 0,
+        guestsNotAttending: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -125,7 +125,7 @@ module.exports = {
         date: '2024-03-01',
         category: 'Театр',
         guestsAttending: 150,
-        guestsNotAttending: 0,
+        guestsNotAttending: 3,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -134,7 +134,7 @@ module.exports = {
         date: '2024-03-05',
         category: 'Спорт',
         guestsAttending: 30,
-        guestsNotAttending: 0,
+        guestsNotAttending: 5,
         createdAt: new Date(),
         updatedAt: new Date()
       },
