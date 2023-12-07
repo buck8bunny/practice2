@@ -7,7 +7,7 @@ const PORT = 3001;
 app.use(cors());
 app.use(express.json());
 
-// Получение всех событий
+// Отримання всіх подій
 app.get('/events', async (req, res) => {
   try {
     const events = await Event.findAll();
@@ -18,7 +18,7 @@ app.get('/events', async (req, res) => {
   }
 });
 
-// Получение конкретного события
+// Отримання конкретної події
 app.get('/events/:id', async (req, res) => {
   const eventId = req.params.id;
 
@@ -55,7 +55,17 @@ app.get('/categories', async (req, res) => {
   }
 });
 
-// Додавання учасника та оновлення кількості учасників
+// Тестування надсилання на пошту з використанням MailDev
+const nodemailer = require('nodemailer');
+
+// Створюємо SMTP TRANSPORT для надсилання електронної пошти через MailDev
+const transporter = nodemailer.createTransport({
+  host: 'localhost',
+  port: 1025, // Порт, який використовує MailDev
+  ignoreTLS: true,
+});
+
+// Додавання учасника, оновлення кількості учасників та надсилання повідомлення про реєстрацію на пошту
 app.post('/attend', async (req, res) => {
   const { eventId, email } = req.body;
 
@@ -69,8 +79,26 @@ app.post('/attend', async (req, res) => {
     });
 
     if (created) {
-      // Если участник создан, увеличиваем guestsAttending на 1
+      // Отримуємо інформацію про подію, щоб передати у тексті повідомлення 
+      const event = await Event.findByPk(eventId);
+      // Якщо учасника створено, збільшуємо guestsAttending на 1
       await Event.increment('guestsAttending', { where: { id: eventId } });
+
+      // Надсилаємо електронного листа
+      const mailOptions = {
+        from: 'your-email@gmail.com',
+        to: email,
+        subject: 'Успішна реєстрація',
+        text: `Дякуємо за реєстрацію на подію ${event.title}. Ми чекаємо вас!`,
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error('Error sending email:', error);
+        } else {
+          console.log('Email sent:', info.response);
+        }
+      });
     }
 
     return res.json({ success: true, message: 'Attendance recorded successfully.' });
@@ -90,7 +118,7 @@ app.put('/attend/notGoing/:eventId', async (req, res) => {
       return res.status(404).json({ error: 'Event not found' });
     }
 
-    // Устанавливаем guestsNotAttending на текущее значение + 1
+    // Встановлюємо guestsNotAttending на поточне значення + 1
     await Event.update(
       { guestsNotAttending: event.guestsNotAttending + 1 },
       { where: { id: eventId } }
@@ -117,7 +145,7 @@ app.get('/yearly-stats', async (req, res) => {
 
     const whereCondition = category ? { category } : {};
 
-    // Получение количества ивентов в каждом месяце
+    // Отримання кількості івентів у кожному місяці
     const monthlyEvents = await Event.findAll({
       attributes: [
         [sequelize.fn('MONTH', sequelize.col('date')), 'month'],
@@ -127,7 +155,7 @@ app.get('/yearly-stats', async (req, res) => {
       group: [sequelize.fn('MONTH', sequelize.col('Event.date'))],
     });
 
-    // Получение количества посетителей, кто планирует идти на ивенты в разных месяцах
+    // Отримання кількості відвідувачів, хто планує йти на івенти у різних місяцях
     const monthlyAttendees = await Event.findAll({
       attributes: [
         [sequelize.fn('MONTH', sequelize.col('date')), 'month'],
@@ -137,7 +165,7 @@ app.get('/yearly-stats', async (req, res) => {
       group: [sequelize.fn('MONTH', sequelize.col('date'))],
     });
 
-    // Получение количества посетителей, кто не планирует идти на ивенты в разных месяцах
+    // Отримання кількості відвідувачів, хто не планує йти на івенти у різних місяцях
     const monthlyNotGoing = await Event.findAll({
       attributes: [
         [sequelize.fn('MONTH', sequelize.col('date')), 'month'],
